@@ -1,0 +1,158 @@
+/* Paleta de Colores de Moda Express */
+:root {
+    --verde-menta: #2ecc71;
+    --verde-menta-hover: #27ae60;
+    --negro-mate: #2c3e50;
+    --blanco-puro: #ffffff;
+    --gris-fondo: #f8f9fa;
+    --gris-borde: #e2e8f0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--gris-fondo);
+    color: var(--negro-mate);
+}
+
+/* Barra de Navegación */
+header {
+    background-color: var(--negro-mate);
+    color: var(--blanco-puro);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+header nav a {
+    color: var(--blanco-puro);
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 500;
+}
+
+header nav a:hover {
+    color: var(--verde-menta);
+}
+
+/* Contenedor Principal */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Grilla de Catálogo (Cliente) */
+.catalogo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.card-producto {
+    background-color: var(--blanco-puro);
+    border: 1px solid var(--gris-borde);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.card-producto h3 {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+.precio {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--negro-mate);
+    margin: 10px 0;
+}
+
+/* Botones de Acción (Verde Menta) */
+.btn-primary {
+    background-color: var(--verde-menta);
+    color: var(--blanco-puro);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--verde-menta-hover);
+}
+
+/* Formularios de Administración */
+.form-admin {
+    background-color: var(--blanco-puro);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--gris-borde);
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid var(--gris-borde);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Tablas Administrativas (Inventario) */
+.tabla-inventario {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--blanco-puro);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tabla-inventario th, .tabla-inventario td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--gris-borde);
+}
+
+.tabla-inventario th {
+    background-color: var(--negro-mate);
+    color: var(--blanco-puro);
+}
+
+.tabla-inventario tr:hover {
+    background-color: #f1f5f9;
+}
+
+.badge-stock {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.badge-ok { background-color: #d4edda; color: #155724; }
+.badge-low { background-color: #fff3cd; color: #856404; }

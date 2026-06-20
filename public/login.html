@@ -1,0 +1,210 @@
+<!-- 
+  @file login.html
+  @description Interfaz del módulo de autenticación y acceso seguro (Atelier Personal) de Moda Express.
+  @author Yeferson Stiven Murcia Romero
+  @version 2.0.0 (V-02: Maquetación Premium Split-Screen)
+  @framework Tecnologías Web Nativas (HTML5 / CSS3 Avanzado)
+  @lifecycle Pantalla de control de acceso orientada al usuario final y administradores (GA7-220501096-AA3-EV01).
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- CONFIGURACIÓN DE METADATOS Y OPTIMIZACIÓN DE RENDERIZADO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODA EXPRESS | Autenticación Atemporal</title>
+    
+    <!-- FUENTES TIPOGRÁFICAS DE DISEÑO DE ALTA GAMA -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- ESTILOS CSS ARQUITECTÓNICOS DEL SISTEMA -->
+    <style>
+        /* ASIGNACIÓN DE VARIABLES DE IDENTIDAD CORPORATIVA (:root de Lujo) */
+        :root {
+            --primary: #000000;
+            --accent: #bba15c;
+            --bg: #ffffff;
+            --border: #e5e5e5;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        /* REGLAS DE NORMALIZACIÓN BÁSICA (CSS Reset) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            height: 100vh;
+            display: flex;
+        }
+
+        /* MAQUETACIÓN: PANTALLA DIVIDIDA (Split Screen Design Architecture) */
+        .login-split-img {
+            flex: 1.2;
+            background: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200') no-repeat center center/cover;
+            display: block;
+        }
+
+        .login-split-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 10%;
+            background: white;
+        }
+
+        /* COMPONENTE: IDENTIFICADOR DE MARCA (Brand Hub Link) */
+        .brand-header {
+            margin-bottom: 40px;
+        }
+
+        .brand-header a {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        /* ENCABEZADOS INFORMATIVOS DEL FORMULARIO */
+        .form-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: #767676;
+            margin-bottom: 35px;
+        }
+
+        /* COMPONENTE: ENVOLTURA ERGONÓMICA DE CAMPOS DE ENTRADA (Minimalist Inputs) */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 0;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-wrapper input:focus {
+            border-bottom-color: var(--primary);
+        }
+
+        .input-wrapper label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #767676;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* CONTROLES ADICIONALES: RECORDATORIO Y RECUPERACIÓN DE CUENTAS */
+        .options-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            margin-bottom: 35px;
+        }
+
+        .options-row a {
+            color: #767676;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+        .options-row a:hover { border-bottom-color: #767676; }
+
+        /* CONTROL DE ENVÍO DE FORMULARIO DE ACCESO (Secure Submit) */
+        .btn-submit-premium {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 16px;
+            border: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit-premium:hover {
+            background: var(--accent);
+        }
+
+        /* PIE DE CAMBIO DE CONTEXTO (Sign-Up Switcher) */
+        .footer-switch {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #767676;
+        }
+
+        .footer-switch a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECCIÓN DE IMPACTO VISUAL (Banner Lateral Corporativo) -->
+    <div class="login-split-img"></div>
+
+    <!-- CONTENEDOR OPERATIVO DEL FORMULARIO DE AUTENTICACIÓN -->
+    <div class="login-split-form">
+        <!-- Enlace de Retorno a la Vitrina Principal -->
+        <div class="brand-header">
+            <a href="index.html">MODA EXPRESS</a>
+        </div>
+
+        <h2 class="form-title">Bienvenido de regreso</h2>
+        <p class="form-subtitle">Ingresa tus credenciales para acceder a tu Atelier personal.</p>
+
+        <!-- FORMULARIO DE ACCESO CON PREVENCIÓN DE ACCIÓN POR DEFECTO -->
+        <form onsubmit="event.preventDefault();">
+            <!-- Bloque de Entrada: Identificador de Usuario -->
+            <div class="input-wrapper">
+                <label>Dirección de Correo Electrónico</label>
+                <input type="email" placeholder="nombre@ejemplo.com" required>
+            </div>
+
+            <!-- Bloque de Entrada: Factor de Autenticación Secreto -->
+            <div class="input-wrapper">
+                <label>Contraseña</label>
+                <input type="password" placeholder="••••••••••••" required>
+            </div>
+
+            <!-- Fila de Estado de Sesión y Soporte de Acceso -->
+            <div class="options-row">
+                <label><input type="checkbox"> Recordar sesión</label>
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <!-- Disparador de Validación de Credenciales -->
+            <button type="submit" class="btn-submit-premium">Iniciar Sesión</button>
+        </form>
+
+        <!-- Enrutador Secundario para Nuevos Usuarios (Maison Registration) -->
+        <p class="footer-switch">¿Nuevo en la Maison? <a href="#">Crear una cuenta</a></p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODA EXPRESS | Checkout Seguro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CONFIGURACIÓN DE VARIABLES GLOBALES DE DISEÑO (:root de Moda Express) */
+        :root {
+            --primary: #000000;
+            --accent: #bba15c;
+            --bg: #fbfbfb;
+            --surface: #ffffff;
+            --border: #e5e5e5;
+            --text-muted: #767676;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        /* RESETEO GENERAL DE ESPACIADOS */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background: var(--bg); color: #111; padding: 0 4%; }
+
+        /* ENCABEZADO SIMPLIFICADO DE COMPRAS (Minimalist Header) */
+        header {
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .logo { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; text-decoration: none; color: #000; }
+
+        /* MAQUETACIÓN ASIMÉTRICA EN DOS COLUMNAS (Formularios vs Resumen) */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto 100px auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+        }
+
+        h2 { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 400; margin-bottom: 30px; }
+        
+        /* BLOQUES DE SECCIÓN DEL PANEL */
+        .section-block {
+            background: var(--surface);
+            padding: 40px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        /* CONTENEDOR GRID PARA CAMPOS DE ENTRADA (Inputs Grid) */
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .full-width { grid-column: span 2; }
+
+        /* COMPONENTE: GRUPO DE FORMULARIO (Form Field Component) */
+        .input-group { display: flex; flex-direction: column; margin-bottom: 20px; }
+        .input-group label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
+        .input-group input, .input-group select {
+            padding: 12px; border: 1px solid var(--border); outline: none; font-family: var(--font-sans); font-size: 0.9rem;
+        }
+        .input-group input:focus { border-color: var(--primary); }
+
+        /* COMPONENTE: PANEL DE RESUMEN DE COMPRA FIJO (Sticky Order Summary) */
+        .order-summary {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 40px;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .summary-total {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* BOTÓN DE ACCIÓN: PROCESAR TRANSACCIÓN */
+        .btn-pay {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s;
+        }
+        .btn-pay:hover { background: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">MODA EXPRESS</a>
+    </header>
+
+    <div class="checkout-container">
+        
+        <div>
+            <div class="section-block">
+                <h2>01. Dirección de Envío</h2>
+                <div class="grid-inputs">
+                    <div class="input-group">
+                        <label>Nombre</label>
+                        <input type="text" placeholder="Yeferson" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Apellido</label>
+                        <input type="text" placeholder="Murcia" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Dirección</label>
+                        <input type="text" placeholder="Calle 10 #2-34, Barrio Centro" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Ciudad</label>
+                        <input type="text" placeholder="Pitalito" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Teléfono</label>
+                        <input type="tel" placeholder="312 345 6789" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <h2>02. Detalles de Pago</h2>
+                <div class="grid-inputs">
+                    <div class="input-width full-width">
+                        <div class="input-group full-width">
+                            <label>Número de Tarjeta</label>
+                            <input type="text" placeholder="4556 •••• •••• 8901" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Fecha de Expiración</label>
+                        <input type="text" placeholder="MM/AA" required>
+                    </div>
+                    <div class="input-group">
+                        <label>CVC / CVV</label>
+                        <input type="password" placeholder="•••" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-summary">
+            <h2>Tu Orden</h2>
+            <div style="margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+                <div class="summary-item">
+                    <span><strong>Abrigo sastre en lana virgen</strong> (x1)</span>
+                    <span>$1.250.000</span>
+                </div>
+            </div>
+            
+            <div class="summary-item">
+                <span style="color: var(--text-muted);">Subtotal</span>
+                <span>$1.050.420 COP</span>
+            </div>
+            <div class="summary-item">
+                <span style="color: var(--text-muted);">IVA (19%)</span>
+                <span>$199.580 COP</span>
+            </div>
+            <div class="summary-item">
+                <span style="color: var(--text-muted);">Envío Express</span>
+                <span style="color: var(--accent);">Gratuito</span>
+            </div>
+            
+            <div class="summary-item summary-total">
+                <span>Total</span>
+                <span>$1.250.000 COP</span>
+            </div>
+
+            <button class="btn-pay">Autorizar y Pagar Pedido</button>
+        </div>
+
+    </div>
+
+</body>
+</html>
