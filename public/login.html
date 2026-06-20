@@ -9,15 +9,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- CONFIGURACIÓN DE METADATOS Y OPTIMIZACIÓN DE RENDERIZADO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODA EXPRESS | Autenticación Atemporal</title>
     
-    <!-- FUENTES TIPOGRÁFICAS DE DISEÑO DE ALTA GAMA -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- ESTILOS CSS ARQUITECTÓNICOS DEL SISTEMA -->
     <style>
         /* ASIGNACIÓN DE VARIABLES DE IDENTIDAD CORPORATIVA (:root de Lujo) */
         :root {
@@ -165,12 +162,9 @@
 </head>
 <body>
 
-    <!-- SECCIÓN DE IMPACTO VISUAL (Banner Lateral Corporativo) -->
     <div class="login-split-img"></div>
 
-    <!-- CONTENEDOR OPERATIVO DEL FORMULARIO DE AUTENTICACIÓN -->
     <div class="login-split-form">
-        <!-- Enlace de Retorno a la Vitrina Principal -->
         <div class="brand-header">
             <a href="index.html">MODA EXPRESS</a>
         </div>
@@ -178,33 +172,46 @@
         <h2 class="form-title">Bienvenido de regreso</h2>
         <p class="form-subtitle">Ingresa tus credenciales para acceder a tu Atelier personal.</p>
 
-        <!-- FORMULARIO DE ACCESO CON PREVENCIÓN DE ACCIÓN POR DEFECTO -->
-        <form onsubmit="event.preventDefault();">
-            <!-- Bloque de Entrada: Identificador de Usuario -->
+        <form id="form-login">
             <div class="input-wrapper">
                 <label>Dirección de Correo Electrónico</label>
-                <input type="email" placeholder="nombre@ejemplo.com" required>
+                <input type="email" id="txt-email" placeholder="nombre@ejemplo.com" required>
             </div>
 
-            <!-- Bloque de Entrada: Factor de Autenticación Secreto -->
             <div class="input-wrapper">
                 <label>Contraseña</label>
-                <input type="password" placeholder="••••••••••••" required>
+                <input type="password" id="txt-password" placeholder="••••••••••••" required>
             </div>
 
-            <!-- Fila de Estado de Sesión y Soporte de Acceso -->
             <div class="options-row">
                 <label><input type="checkbox"> Recordar sesión</label>
-                <a href="#">¿Olvidaste tu contraseña?</a>
+                <a href="#" onclick="alert('Funcionalidad de recuperación en mantenimiento.');">¿Olvidaste tu contraseña?</a>
             </div>
 
-            <!-- Disparador de Validación de Credenciales -->
             <button type="submit" class="btn-submit-premium">Iniciar Sesión</button>
         </form>
 
-        <!-- Enrutador Secundario para Nuevos Usuarios (Maison Registration) -->
-        <p class="footer-switch">¿Nuevo en la Maison? <a href="#">Crear una cuenta</a></p>
+        <p class="footer-switch">¿Nuevo en la Maison? <a href="#" onclick="alert('El registro de nuevos clientes está temporalmente cerrado por lanzamiento de temporada.');">Crear una cuenta</a></p>
     </div>
 
+    <script>
+        document.getElementById('form-login').addEventListener('submit', function(e) {
+            e.preventDefault(); // Detiene el refresco de página por defecto
+
+            // Capturar las credenciales ingresadas por el usuario
+            const email = document.getElementById('txt-email').value.trim();
+            const password = document.getElementById('txt-password').value;
+
+            // Validación de control de acceso basada en roles
+            if (email === 'admin@modaexpress.com' && password === 'admin123') {
+                alert('✨ Autenticación exitosa como Administrador.\nAccediendo al Studio Dashboard...');
+                window.location.href = 'admin.html'; // Redirige al panel de administración
+            } else {
+                // Simulación para cualquier otro usuario o cliente regular
+                alert(`👋 ¡Bienvenido de vuelta!\nSesión iniciada correctamente con el correo: ${email}`);
+                window.location.href = 'index.html'; // Redirige a la tienda principal
+            }
+        });
+    </script>
 </body>
 </html>

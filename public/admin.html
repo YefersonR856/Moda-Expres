@@ -9,15 +9,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- CONFIGURACIÓN DE METADATOS ESENCIALES -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODA EXPRESS | Studio Dashboard</title>
     
-    <!-- FUENTES TIPOGRÁFICAS CORPORATIVAS (Google Fonts) -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
-    <!-- ESTILOS CSS INLINE PARA LA INTERFAZ DEL DASHBOARD -->
     <style>
         /* CONFIGURACIÓN DE VARIABLES GLOBALES DE DISEÑO (Arquitectura de Diseño de Moda Express) */
         :root {
@@ -74,7 +71,7 @@
             border-radius: 4px;
         }
         .kpi-card p { font-size: 0.75rem; text-transform: uppercase; color: #718096; letter-spacing: 1px; margin-bottom: 10px; }
-        .kpi-card h3 { font-size: 1.6rem; font-weight: 700; }
+        .kpi-card h3 { font-size: 1.4rem; font-weight: 700; }
 
         /* ARQUITECTURA DE DISEÑO EN DOS COLUMNAS (Formulario vs Grilla) */
         .dashboard-layout {
@@ -111,76 +108,70 @@
         /* BADGES INFORMATIVOS DE STOCK */
         .badge { padding: 4px 8px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; border-radius: 2px; }
         .badge-success { background: #e6fffa; color: #234e52; }
+        .badge-warning { background: #fffaf0; color: #dd6b20; }
+        .badge-danger { background: #fff5f5; color: #e53e3e; }
     </style>
 </head>
 <body>
 
-    <!-- MENÚ DE NAVEGACIÓN LATERAL (Control de Módulos) -->
     <div class="sidebar">
         <h1>M X STUDIO</h1>
         <a href="#" class="active">📦 Productos</a>
         <a href="#">🧾 Órdenes</a>
         <a href="#">📊 Analíticas</a>
-        <!-- Enlace de retorno directo hacia el catálogo público del cliente -->
         <a href="index.html" style="margin-top: auto; border-left: none; color: var(--accent);">Ver Tienda ➔</a>
     </div>
 
-    <!-- CONTENEDOR DE OPERACIONES PRINCIPALES -->
     <div class="main-content">
-        <!-- Barra de Estado de Conexión de Datos -->
         <div class="header-title">
             <h2>Control de Atelier / Inventario</h2>
             <span style="font-size: 0.85rem; color: #718096;">Estatus: <strong>Conectado a la API</strong></span>
         </div>
 
-        <!-- GRILLA DE VISTA RÁPIDA DE INDICADORES DE RENDIMIENTO (KPIs) -->
         <div class="kpi-grid">
-            <div class="kpi-card"><p>Volumen Ventas</p><h3>$24.500.000</h3></div>
-            <div class="kpi-card"><p>Prendas en Stock</p><h3>142 un</h3></div>
-            <div class="kpi-card"><p>Órdenes Activas</p><h3>18</h3></div>
-            <div class="kpi-card"><p>Margen Neto</p><h3>64.2%</h3></div>
+            <div class="kpi-card"><p>Valorización Inventario</p><h3 id="kpi-ventas">$0</h3></div>
+            <div class="kpi-card"><p>Prendas en Stock</p><h3 id="kpi-stock">0 un</h3></div>
+            <div class="kpi-card"><p>Modelos Únicos</p><h3 id="kpi-ordenes">0</h3></div>
+            <div class="kpi-card"><p>Margen Operativo</p><h3>64.2%</h3></div>
         </div>
 
-        <!-- DIVISIÓN DEL PANEL OPERATIVO -->
         <div class="dashboard-layout">
-            <!-- MÓDULO FORMULARIO: Captura de Datos de Nuevas Prendas -->
             <div class="card-panel">
                 <h4>Añadir Nueva Prenda</h4>
-                <!-- El envío del formulario se intercepta de forma nativa para evitar recarga inesperada -->
-                <form class="form-grid" onsubmit="event.preventDefault();">
+                <form class="form-grid" id="form-add-producto">
                     <div class="form-group full-row">
                         <label>Nombre de la Prenda</label>
-                        <input type="text" placeholder="Ej: Gabardina Impermeable" required>
+                        <input type="text" id="txt-nombre" placeholder="Ej: Gabardina Impermeable" required>
                     </div>
                     <div class="form-group">
                         <label>Categoría</label>
-                        <select>
-                            <option>Abrigos</option>
-                            <option>Blusas</option>
-                            <option>Pantalones</option>
+                        <select id="sel-categoria">
+                            <option value="Abrigos">Abrigos</option>
+                            <option value="Blusas">Blusas</option>
+                            <option value="Pantalones">Pantalones</option>
+                            <option value="Camisetas">Camisetas</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Precio (COP)</label>
-                        <input type="number" placeholder="850000" required>
+                        <input type="number" id="num-precio" placeholder="850000" required>
                     </div>
                     <div class="form-group">
                         <label>Stock Bodega</label>
-                        <input type="number" placeholder="15" required>
+                        <input type="number" id="num-stock" placeholder="15" required>
                     </div>
                     <div class="form-group">
                         <label>Talla</label>
-                        <input type="text" placeholder="M" required>
+                        <input type="text" id="txt-talla" placeholder="M" required>
                     </div>
                     <div class="form-group full-row">
                         <label>Color</label>
-                        <input type="text" placeholder="Negro Absoluto" required>
+                        <input type="text" id="txt-color" placeholder="Negro Absoluto" required>
                     </div>
                     <button type="submit" class="btn-admin">Publicar en Vitrina Virtual</button>
                 </form>
             </div>
 
-            <!-- MÓDULO TABLA: Visualización de Estado Real de Existencias -->
             <div class="card-panel">
                 <h4>Artículos Disponibles en Tiempo Real</h4>
                 <table>
@@ -193,28 +184,97 @@
                             <th>Stock</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Fila de Producto Técnico #01 -->
-                        <tr>
-                            <td>#01</td>
-                            <td><strong>Abrigo sastre en lana</strong></td>
-                            <td>M / Camel</td>
-                            <td>$1.250.000</td>
-                            <td><span class="badge badge-success">12 un</span></td>
-                        </tr>
-                        <!-- Fila de Producto Técnico #02 -->
-                        <tr>
-                            <td>#02</td>
-                            <td><strong>Blusa seda minimalista</strong></td>
-                            <td>S / Marfil</td>
-                            <td>$680.000</td>
-                            <td><span class="badge badge-success">24 un</span></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tabla-inventario-body">
+                        </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <script>
+        /**
+         * Recupera el estado real del inventario desde el servidor para mapearlo en la UI.
+         */
+        async function cargarInventarioDashboard() {
+            try {
+                const response = await fetch('/api/productos');
+                const productos = await response.json();
+                const tbody = document.getElementById('tabla-inventario-body');
+
+                // Mapear dinámicamente cada prenda en la fila correspondiente
+                tbody.innerHTML = productos.map(prod => {
+                    // Establecer estilos de badge semánticos según criticidad del Stock
+                    let badgeClass = 'badge-success';
+                    if (prod.stock <= 0) {
+                        badgeClass = 'badge-danger';
+                    } else if (prod.stock <= 3) {
+                        badgeClass = 'badge-warning';
+                    }
+
+                    return `
+                        <tr>
+                            <td>#${String(prod.id).padStart(2, '0')}</td>
+                            <td><strong>${prod.nombre}</strong><br><small style="color: #718096;">${prod.categoria}</small></td>
+                            <td>${prod.talla} / ${prod.color}</td>
+                            <td>$${prod.precio.toLocaleString('es-CO')}</td>
+                            <td><span class="badge ${badgeClass}">${prod.stock} un</span></td>
+                        </tr>
+                    `;
+                }).join('');
+
+                // Calcular y refrescar los indicadores operacionales (KPIs) en tiempo real
+                let stockTotal = productos.reduce((acc, p) => acc + p.stock, 0);
+                let valorizacionTotal = productos.reduce((acc, p) => acc + (p.precio * p.stock), 0);
+
+                document.getElementById('kpi-stock').innerText = `${stockTotal} un`;
+                document.getElementById('kpi-ventas').innerText = `$${valorizacionTotal.toLocaleString('es-CO')}`;
+                document.getElementById('kpi-ordenes').innerText = productos.length;
+
+            } catch (error) {
+                console.error("Error cargando los datos operacionales de inventario:", error);
+            }
+        }
+
+        /**
+         * Intercepta el formulario para publicar nuevas líneas de prendas mediante peticiones REST POST.
+         */
+        document.getElementById('form-add-producto').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Construir el objeto de transporte de datos
+            const nuevoProducto = {
+                nombre: document.getElementById('txt-nombre').value,
+                categoria: document.getElementById('sel-categoria').value,
+                precio: parseInt(document.getElementById('num-precio').value),
+                stock: parseInt(document.getElementById('num-stock').value),
+                talla: document.getElementById('txt-talla').value,
+                color: document.getElementById('txt-color').value
+            };
+
+            try {
+                const response = await fetch('/api/productos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(nuevoProducto)
+                });
+
+                if (response.ok) {
+                    alert("✨ ¡Lanzamiento exitoso! Producto integrado al catálogo global.");
+                    document.getElementById('form-add-producto').reset(); // Limpiar el formulario
+                    cargarInventarioDashboard(); // Refrescar tablas e indicadores analíticos
+                } else {
+                    alert("Error en el servidor: No se pudo registrar la prenda.");
+                }
+            } catch (error) {
+                console.error("Error despachando nuevo producto:", error);
+                alert("Error de red: No hay conexión con el servicio de inventario.");
+            }
+        });
+
+        // Inicializar el renderizado general del panel de control
+        window.onload = cargarInventarioDashboard;
+    </script>
 </body>
 </html>

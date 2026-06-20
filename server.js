@@ -16,8 +16,7 @@ const PORT = 3001;
 // CONFIGURACIÓN DE MIDDLEWARES ARQUITECTÓNICOS
 // =====================================================================
 
-/** 
- * Middleware para la interceptación y parseo de peticiones con carga útil JSON.
+/** * Middleware para la interceptación y parseo de peticiones con carga útil JSON.
  * Permite la lectura estructurada del objeto 'req.body'.
  */
 app.use(express.json());
@@ -93,18 +92,35 @@ app.post('/api/productos', (req, res) => {
 app.post('/api/comprar', (req, res) => {
     const carrito = req.body.carrito; // Colección de identificadores y cantidades a liquidar
     
-    // Bucle iterativo de control de inventario (Descuento transaccional)
+    // Regla de validación inicial: Comprobar existencia de la carga útil
+    if (!carrito || carrito.length === 0) {
+        return res.status(400).json({ estatus: "ERROR", mensaje: "El carrito se encuentra vacío de manera estructural." });
+    }
+
+    // Primera fase de control: Verificar disponibilidad integral antes de realizar mutaciones de datos
+    for (const item of carrito) {
+        const producto = inventario.find(p => p.id === item.id);
+        if (!producto) {
+            return res.status(404).json({ estatus: "ERROR", mensaje: `El producto con ID ${item.id} no existe en el catálogo.` });
+        }
+        if (producto.stock < item.cantidad) {
+            return res.status(400).json({ 
+                estatus: "ERROR", 
+                mensaje: `Existencias insuficientes para la prenda: ${producto.nombre}. Disponibles: ${producto.stock} unidades.` 
+            });
+        }
+    }
+
+    // Segunda fase de control: Deducción automatizada y transaccional del stock físico
     carrito.forEach(item => {
         const producto = inventario.find(p => p.id === item.id);
-        
-        // Regla de negocio: Validar existencia del SKU y disponibilidad de existencias (Stock Control)
-        if (producto && producto.stock >= item.cantidad) {
-            producto.stock -= item.cantidad; // Deducción automatizada de unidades
+        if (producto) {
+            producto.stock -= item.cantidad; 
         }
     });
     
     // Despacho de respuesta confirmando el estatus operativo de la transacción
-    res.json({ estatus: "OK", mensaje: "¡Compra procesada con éxito y stock actualizado!" });
+    res.json({ estatus: "OK", mensaje: "¡Compra procesada con éxito y stock actualizado!", inventario: inventario });
 });
 
 // =====================================================================

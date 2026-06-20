@@ -107,6 +107,15 @@
             transition: background 0.3s;
         }
         .btn-pay:hover { background: var(--accent); }
+        
+        /* Contenedor interno dinámico para listar la ropa */
+        .checkout-items-lista {
+            max-height: 180px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -115,7 +124,7 @@
         <a href="index.html" class="logo">MODA EXPRESS</a>
     </header>
 
-    <div class="checkout-container">
+    <form id="form-checkout" class="checkout-container">
         
         <div>
             <div class="section-block">
@@ -147,7 +156,7 @@
             <div class="section-block">
                 <h2>02. Detalles de Pago</h2>
                 <div class="grid-inputs">
-                    <div class="input-width full-width">
+                    <div class="full-width">
                         <div class="input-group full-width">
                             <label>Número de Tarjeta</label>
                             <input type="text" placeholder="4556 •••• •••• 8901" required>
@@ -167,20 +176,17 @@
 
         <div class="order-summary">
             <h2>Tu Orden</h2>
-            <div style="margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
-                <div class="summary-item">
-                    <span><strong>Abrigo sastre en lana virgen</strong> (x1)</span>
-                    <span>$1.250.000</span>
+            
+            <div id="checkout-productos-lista" class="checkout-items-lista">
                 </div>
-            </div>
             
             <div class="summary-item">
                 <span style="color: var(--text-muted);">Subtotal</span>
-                <span>$1.050.420 COP</span>
+                <span id="lbl-subtotal">$0 COP</span>
             </div>
             <div class="summary-item">
                 <span style="color: var(--text-muted);">IVA (19%)</span>
-                <span>$199.580 COP</span>
+                <span id="lbl-iva">$0 COP</span>
             </div>
             <div class="summary-item">
                 <span style="color: var(--text-muted);">Envío Express</span>
@@ -189,13 +195,87 @@
             
             <div class="summary-item summary-total">
                 <span>Total</span>
-                <span>$1.250.000 COP</span>
+                <span id="lbl-total">$0 COP</span>
             </div>
 
-            <button class="btn-pay">Autorizar y Pagar Pedido</button>
+            <button type="submit" class="btn-pay">Autorizar y Pagar Pedido</button>
         </div>
 
-    </div>
+    </form>
 
+    <script>
+        // Cargar el estado actual del carrito desde la persistencia local
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        /**
+         * Renderiza los productos seleccionados y calcula la liquidación financiera en el Checkout.
+         */
+        function inicializarResumenCheckout() {
+            const listaContenedor = document.getElementById('checkout-productos-lista');
+            
+            if (carrito.length === 0) {
+                listaContenedor.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">No hay prendas en tu orden actual.</p>';
+                document.getElementById('lbl-subtotal').innerText = '$0 COP';
+                document.getElementById('lbl-iva').innerText = '$0 COP';
+                document.getElementById('lbl-total').innerText = '$0 COP';
+                return;
+            }
+
+            // Inyección dinámica de las líneas de producto correspondientes
+            listaContenedor.innerHTML = carrito.map(item => `
+                <div class="summary-item" style="margin-bottom: 12px;">
+                    <span><strong>${item.nombre}</strong> (x${item.cantidad})</span>
+                    <span>$${(item.precio * item.cantidad).toLocaleString('es-CO')} COP</span>
+                </div>
+            `).join('');
+
+            // Cálculos financieros precisos
+            let subtotal = carrito.reduce((acc, current) => acc + (current.precio * current.cantidad), 0);
+            let iva = subtotal * 0.19;
+            let total = subtotal + iva;
+
+            // Inyectar etiquetas calculadas con formato monetario localizado
+            document.getElementById('lbl-subtotal').innerText = `$${subtotal.toLocaleString('es-CO')} COP`;
+            document.getElementById('lbl-iva').innerText = `$${iva.toLocaleString('es-CO')} COP`;
+            document.getElementById('lbl-total').innerText = `$${total.toLocaleString('es-CO')} COP`;
+        }
+
+        // Manejador del evento de envío del formulario de checkout
+        document.getElementById('form-checkout').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Detener el refresco por defecto de la página
+
+            if (carrito.length === 0) {
+                alert("Operación denegada: El carro de compras no contiene productos para procesar.");
+                return;
+            }
+
+            try {
+                // Despachar petición HTTP POST estructurada hacia la API del Backend
+                const respuesta = await fetch('/api/comprar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ carrito: carrito })
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.estatus === "OK") {
+                    alert(`🎉 ¡Éxito en la transacción!\n\n${resultado.mensaje}`);
+                    localStorage.removeItem('carrito'); // Vaciar el buffer del carrito local
+                    window.location.href = 'index.html'; // Redirigir de vuelta a la vitrina virtual
+                } else {
+                    alert(`❌ Error operativo: ${resultado.mensaje}`);
+                }
+            } catch (error) {
+                console.error("Error en la petición de compra:", error);
+                alert("Error de red: No se pudo establecer conexión de alta disponibilidad con el servidor de pasarela.");
+            }
+        });
+
+        // Invocar renderizado al cargarse el documento
+        window.onload = inicializarResumenCheckout;
+    </script>
 </body>
 </html>

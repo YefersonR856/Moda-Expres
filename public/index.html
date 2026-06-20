@@ -1,25 +1,14 @@
-<!-- 
-  @file index.html
-  @description Interfaz pública principal (Vitrina Virtual y Catálogo Premium) de Moda Express.
-  @author Yeferson Stiven Murcia Romero
-  @version 2.0.0 (V-02: Integración de Carrito en Pie de Página)
-  @framework Tecnologías Web Nativas (HTML5 / CSS3 Avanzado)
-  @lifecycle Elemento de la interfaz de usuario orientado al cliente para la visualización del catálogo (GA7-220501096-AA3-EV01).
--->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- CONFIGURACIÓN DE METADATOS Y OPTIMIZACIÓN DE RENDERIZADO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODA EXPRESS | High Luxury E-Commerce</title>
     
-    <!-- PRECONEXIÓN Y CARGA DE FUENTES TIPOGRÁFICAS PREMIUM -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
-    <!-- ESTILOS CSS ARQUITECTÓNICOS DEL SISTEMA -->
     <style>
         /* ASIGNACIÓN DE VARIABLES DE IDENTIDAD CORPORATIVA (:root de Lujo) */
         :root {
@@ -248,6 +237,22 @@
             padding: 10px 0;
         }
 
+        /* Elemento dinámico para listar items agregados dentro del pie */
+        .carrito-items-lista {
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .carrito-item-linea {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--border);
+        }
+
         /* FILAS ESTRUCTURALES DE VALORES FINANCIEROS (COP) */
         .carrito-total-row {
             display: flex;
@@ -292,81 +297,157 @@
 </head>
 <body>
 
-    <!-- BARRA INFORMATIVA SUPERIOR DE CONTROL OPERATIVO -->
     <div class="promo-bar">Envíos Express Premium Globales / Diseños de Alta Costura</div>
 
-    <!-- ENCABEZADO Y RUTEO DEL FRONTEND (Main Menu Hub) -->
     <header>
         <a href="index.html" class="logo">MODA EXPRESS</a>
         <nav>
             <a href="index.html" class="active">Colecciones</a>
             <a href="login.html">Acceder</a>
             <a href="checkout.html">Checkout</a>
-            <!-- Acceso restringido al tablero administrativo de inventarios -->
             <a href="admin.html" style="color: var(--accent);">Studio Admin ⚙️</a>
         </nav>
     </header>
 
-    <!-- COMPONENTE HERO VISUAL (Lanzamiento de Temporada) -->
     <div class="hero">
         <p>Nueva Colección Otoño / Invierno</p>
         <h2>THIS IS NEW LUXURY</h2>
         <button class="btn-luxury">Explorar Atelier</button>
     </div>
 
-    <!-- CUERPO PRINCIPAL DEL APLICATIVO -->
     <div class="main-container">
         <h2 class="section-title">Prendas de Temporada</h2>
         
-        <!-- GRILLA DINÁMICA DE LA VITRINA DE PRODUCTOS (Items Showcase) -->
-        <div class="catalogo-grid">
-            <!-- Producto Indexado #01: Abrigos -->
-            <div class="card-producto">
-                <div class="image-placeholder"></div>
-                <h3>Abrigo sastre en lana virgen</h3>
-                <div class="meta">Categoría: Abrigos | Talla: M | Color: Camel</div>
-                <div class="precio">$1.250.000 COP</div>
-                <button class="btn-add-cart">Añadir al Carrito</button>
+        <div class="catalogo-grid" id="catalogo-productos">
             </div>
-            <!-- Producto Indexado #02: Blusas -->
-            <div class="card-producto">
-                <div class="image-placeholder" style="background-image: url('https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=600');"></div>
-                <h3>Blusa de seda minimalista</h3>
-                <div class="meta">Categoría: Blusas | Talla: S | Color: Marfil</div>
-                <div class="precio">$680.000 COP</div>
-                <button class="btn-add-cart">Añadir al Carrito</button>
-            </div>
-        </div>
 
-        <!-- ========================================================
-             BLOQUE OPERATIVO FRONTEND: INTERFAZ MÓDULO DE CARRO LOCAL
-             ======================================================== -->
         <div class="carrito-pie-container">
             <h2>Tu Carrito de Compras</h2>
             
-            <!-- Mensaje Condicional por Defecto (Estado Inicial de Liquidación) -->
-            <div class="carrito-vacio-msg">Tu carrito está vacío.</div>
+            <div id="lista-items-carrito" class="carrito-items-lista"></div>
+            
+            <div class="carrito-vacio-msg" id="msg-vacio">Tu carrito está vacío.</div>
             
             <div class="carrito-total-row">
                 <span>Subtotal</span>
-                <span>$0 COP</span>
+                <span id="txt-subtotal">$0 COP</span>
             </div>
             <div class="carrito-total-row">
                 <span>IVA (19%)</span>
-                <span>$0 COP</span>
+                <span id="txt-iva">$0 COP</span>
             </div>
             
-            <!-- Balance Neto Final a Despachar -->
             <div class="carrito-total-row total-final">
                 <span>Total</span>
-                <span>$0 COP</span>
+                <span id="txt-total">$0 COP</span>
             </div>
 
-            <!-- Redirección directa hacia la pasarela segura de check-out -->
             <a href="checkout.html" class="btn-checkout-pie">Proceder al Pago Seguro</a>
         </div>
 
     </div>
 
+    <script>
+        // Array de estado global persistido localmente para el carrito
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        /**
+                  * Consume la API local de productos para renderizar dinámicamente la grilla del catálogo.
+         */
+        async function fetchCatalogo() {
+            try {
+                const response = await fetch('/api/productos');
+                const productos = await response.json();
+                const grid = document.getElementById('catalogo-productos');
+                
+                // Mapeo e inyección semántica de tarjetas de producto basadas en el inventario del servidor
+                grid.innerHTML = productos.map(prod => {
+                    // Mapear imágenes ilustrativas de Unsplash de alta costura según el producto
+                    let imgUrl = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600';
+                    if (prod.id === 1) imgUrl = 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?q=80&w=600'; // Denim
+                    if (prod.id === 2) imgUrl = 'https://images.unsplash.com/photo-1517423568366-8b83523034fd?q=80&w=600'; // Cargo
+                    if (prod.id === 3) imgUrl = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=600'; // Oversize
+
+                    return `
+                        <div class="card-producto">
+                            <div class="image-placeholder" style="background-image: url('${imgUrl}');"></div>
+                            <h3>${prod.nombre}</h3>
+                            <div class="meta">Categoría: ${prod.categoria} | Talla: ${prod.talla} | Color: ${prod.color}</div>
+                            <div class="meta" style="font-weight: 600; color: #c0392b;">Disponibles: ${prod.stock} uds</div>
+                            <div class="precio">$${prod.precio.toLocaleString('es-CO')} COP</div>
+                            <button class="btn-add-cart" onclick="agregarProducto(${prod.id}, '${prod.nombre}', ${prod.precio}, ${prod.stock})">Añadir al Carrito</button>
+                        </div>
+                    `;
+                }).join('');
+                
+                renderCarritoPie();
+            } catch (error) {
+                console.error("Error crítico recuperando el catálogo desde la API:", error);
+            }
+        }
+
+        /**
+         * Inserta una prenda en el carro de compras validando stock local de la vitrina.
+         */
+        function agregarProducto(id, nombre, precio, stockMax) {
+            const itemExistente = carrito.find(item => item.id === id);
+            const cantidadActual = itemExistente ? itemExistente.cantidad : 0;
+
+            if (cantidadActual >= stockMax) {
+                alert(`Lo sentimos. No es posible agregar más unidades de "${nombre}". Stock máximo alcanzado.`);
+                return;
+            }
+
+            if (itemExistente) {
+                itemExistente.cantidad += 1;
+            } else {
+                carrito.push({ id, nombre, precio, cantidad: 1 });
+            }
+
+            // Persistir cambios y actualizar vista
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            renderCarritoPie();
+        }
+
+        /**
+                  * Renderiza los cálculos financieros e ítems en el módulo de pie de página.
+         */
+        function renderCarritoPie() {
+            const listaDiv = document.getElementById('lista-items-carrito');
+            const msgVacio = document.getElementById('msg-vacio');
+            
+            if (carrito.length === 0) {
+                listaDiv.innerHTML = '';
+                msgVacio.style.display = 'block';
+                document.getElementById('txt-subtotal').innerText = '$0 COP';
+                document.getElementById('txt-iva').innerText = '$0 COP';
+                document.getElementById('txt-total').innerText = '$0 COP';
+                return;
+            }
+
+            msgVacio.style.display = 'none';
+            
+            // Render de renglones individuales
+            listaDiv.innerHTML = carrito.map(item => `
+                <div class="carrito-item-linea">
+                    <span>• ${item.nombre} <strong>(x${item.cantidad})</strong></span>
+                    <span>$${(item.precio * item.cantidad).toLocaleString('es-CO')} COP</span>
+                </div>
+            `).join('');
+
+            // Operaciones aritméticas de liquidación
+            let subtotal = carrito.reduce((acc, current) => acc + (current.precio * current.cantidad), 0);
+            let iva = subtotal * 0.19;
+            let total = subtotal + iva;
+
+            // Inyección de valores calculados con formato localizado
+            document.getElementById('txt-subtotal').innerText = `$${subtotal.toLocaleString('es-CO')} COP`;
+            document.getElementById('txt-iva').innerText = `$${iva.toLocaleString('es-CO')} COP`;
+            document.getElementById('txt-total').innerText = `$${total.toLocaleString('es-CO')} COP`;
+        }
+
+        // Inicialización del script al completar la carga del DOM
+        window.onload = fetchCatalogo;
+    </script>
 </body>
 </html>
