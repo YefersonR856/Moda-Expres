@@ -169,7 +169,7 @@
         .image-placeholder {
             width: 100%;
             height: 380px;
-            background: #eee url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600') no-repeat center center/cover;
+            background: #eee no-repeat center center/cover;
             margin-bottom: 15px;
         }
 
@@ -319,7 +319,7 @@
         <h2 class="section-title">Prendas de Temporada</h2>
         
         <div class="catalogo-grid" id="catalogo-productos">
-            </div>
+        </div>
 
         <div class="carrito-pie-container">
             <h2>Tu Carrito de Compras</h2>
@@ -352,7 +352,7 @@
         let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
         /**
-                  * Consume la API local de productos para renderizar dinámicamente la grilla del catálogo.
+         * Consume la API local de productos para renderizar dinámicamente la grilla del catálogo.
          */
         async function fetchCatalogo() {
             try {
@@ -362,11 +362,8 @@
                 
                 // Mapeo e inyección semántica de tarjetas de producto basadas en el inventario del servidor
                 grid.innerHTML = productos.map(prod => {
-                    // Mapear imágenes ilustrativas de Unsplash de alta costura según el producto
-                    let imgUrl = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600';
-                    if (prod.id === 1) imgUrl = 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?q=80&w=600'; // Denim
-                    if (prod.id === 2) imgUrl = 'https://images.unsplash.com/photo-1517423568366-8b83523034fd?q=80&w=600'; // Cargo
-                    if (prod.id === 3) imgUrl = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=600'; // Oversize
+                    // Mapear dinámicamente la URL de recurso gráfico estático provisto por la API
+                    let imgUrl = prod.imagen || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600';
 
                     return `
                         <div class="card-producto">
@@ -410,7 +407,7 @@
         }
 
         /**
-                  * Renderiza los cálculos financieros e ítems en el módulo de pie de página.
+         * Renderiza los cálculos financieros e ítems en el módulo de pie de página.
          */
         function renderCarritoPie() {
             const listaDiv = document.getElementById('lista-items-carrito');
