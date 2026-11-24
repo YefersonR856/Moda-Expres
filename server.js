@@ -16,7 +16,8 @@ const PORT = 3001;
 // CONFIGURACIÓN DE MIDDLEWARES ARQUITECTÓNICOS
 // =====================================================================
 
-/** * Middleware para la interceptación y parseo de peticiones con carga útil JSON.
+/**
+ * Middleware para la interceptación y parseo de peticiones con carga útil JSON.
  * Permite la lectura estructurada del objeto 'req.body'.
  */
 app.use(express.json());
@@ -72,15 +73,22 @@ app.get('/api/productos', (req, res) => {
  * @access Restringido / Administrador
  */
 app.post('/api/productos', (req, res) => {
+    const precioValidado = parseFloat(req.body.precio);
+    const stockValidado = parseInt(req.body.stock, 10);
+
+    if (!req.body.nombre || !req.body.categoria || Number.isNaN(precioValidado) || precioValidado < 0 || Number.isNaN(stockValidado) || stockValidado < 0) {
+        return res.status(400).json({ estatus: "ERROR", mensaje: "Datos de producto inválidos o incompletos." });
+    }
+
     // Estructuración del nuevo objeto de producto con casting explícito de datos numéricos
     const nuevoProducto = {
         id: inventario.length > 0 ? Math.max(...inventario.map(p => p.id)) + 1 : 1,
-        nombre: req.body.nombre,
-        categoria: req.body.categoria,
-        precio: parseFloat(req.body.precio),
-        stock: parseInt(req.body.stock),
-        talla: req.body.talla,
-        color: req.body.color,
+        nombre: String(req.body.nombre).trim(),
+        categoria: String(req.body.categoria).trim(),
+        precio: precioValidado,
+        stock: stockValidado,
+        talla: String(req.body.talla || 'M').trim(),
+        color: String(req.body.color || 'Único').trim(),
         imagen: req.body.imagen || "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=500" // Imagen elegante genérica si no se provee una
     };
     
@@ -98,9 +106,10 @@ app.post('/api/productos', (req, res) => {
  */
 app.post('/api/comprar', (req, res) => {
     const carrito = req.body.carrito; // Colección de identificadores y cantidades a liquidar
+    const envio = req.body.envio || null;
     
     // Regla de validación inicial: Comprobar existencia de la carga útil
-    if (!carrito || carrito.length === 0) {
+    if (!carrito || !Array.isArray(carrito) || carrito.length === 0) {
         return res.status(400).json({ estatus: "ERROR", mensaje: "El carrito se encuentra vacío de manera estructural." });
     }
 
@@ -130,6 +139,7 @@ app.post('/api/comprar', (req, res) => {
     const nuevaOrden = {
         id: ordenes.length + 1,
         items: carrito,
+        envio: envio,
         fecha: new Date()
     };
     ordenes.push(nuevaOrden);
@@ -144,7 +154,7 @@ app.post('/api/comprar', (req, res) => {
  * @access Restringido / Administrador
  */
 app.delete('/api/productos/:id', (req, res) => {
-    const idProducto = parseInt(req.params.id);
+    const idProducto = parseInt(req.params.id, 10);
     const longitudInicial = inventario.length;
     
     inventario = inventario.filter(p => p.id !== idProducto);
@@ -162,7 +172,7 @@ app.delete('/api/productos/:id', (req, res) => {
  * @access Restringido / Administrador
  */
 app.delete('/api/ordenes/:id', (req, res) => {
-    const idOrden = parseInt(req.params.id);
+    const idOrden = parseInt(req.params.id, 10);
     const longitudInicial = ordenes.length;
     
     ordenes = ordenes.filter(o => o.id !== idOrden);

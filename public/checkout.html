@@ -6,33 +6,10 @@
     <title>MODA EXPRESS | Checkout Seguro</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Vinculación a la hoja de estilos compartida styles.css -->
+    <link rel="stylesheet" href="styles.css">
     
     <style>
-        /* CONFIGURACIÓN DE VARIABLES GLOBALES DE DISEÑO (:root de Moda Express) */
-        :root {
-            --primary: #000000;
-            --accent: #bba15c;
-            --bg: #fbfbfb;
-            --surface: #ffffff;
-            --border: #e5e5e5;
-            --text-muted: #767676;
-            --font-serif: 'Playfair Display', Georgia, serif;
-            --font-sans: 'Montserrat', sans-serif;
-        }
-
-        /* RESETEO GENERAL DE ESPACIADOS */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background: var(--bg); color: #111; padding: 0 4%; }
-
-        /* ENCABEZADO SIMPLIFICADO DE COMPRAS (Minimalist Header) */
-        header {
-            padding: 30px 0;
-            border-bottom: 1px solid var(--border);
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .logo { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; text-decoration: none; color: #000; }
-
         /* MAQUETACIÓN ASIMÉTRICA EN DOS COLUMNAS (Formularios vs Resumen) */
         .checkout-container {
             max-width: 1200px;
@@ -42,14 +19,15 @@
             gap: 60px;
         }
 
-        h2 { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 400; margin-bottom: 30px; }
+        h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 30px; }
         
         /* BLOQUES DE SECCIÓN DEL PANEL */
         .section-block {
-            background: var(--surface);
+            background: var(--blanco-puro);
             padding: 40px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--gris-borde);
             margin-bottom: 30px;
+            border-radius: 8px;
         }
 
         /* CONTENEDOR GRID PARA CAMPOS DE ENTRADA (Inputs Grid) */
@@ -60,22 +38,15 @@
         }
         .full-width { grid-column: span 2; }
 
-        /* COMPONENTE: GRUPO DE FORMULARIO (Form Field Component) */
-        .input-group { display: flex; flex-direction: column; margin-bottom: 20px; }
-        .input-group label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
-        .input-group input, .input-group select {
-            padding: 12px; border: 1px solid var(--border); outline: none; font-family: var(--font-sans); font-size: 0.9rem;
-        }
-        .input-group input:focus { border-color: var(--primary); }
-
         /* COMPONENTE: PANEL DE RESUMEN DE COMPRA FIJO (Sticky Order Summary) */
         .order-summary {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--blanco-puro);
+            border: 1px solid var(--gris-borde);
             padding: 40px;
             position: sticky;
-            top: 120px;
+            top: 40px;
             height: fit-content;
+            border-radius: 8px;
         }
         .summary-item {
             display: flex;
@@ -84,36 +55,19 @@
             font-size: 0.9rem;
         }
         .summary-total {
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--gris-borde);
             padding-top: 20px;
             margin-top: 20px;
             font-weight: 700;
             font-size: 1.1rem;
         }
-
-        /* BOTÓN DE ACCIÓN: PROCESAR TRANSACCIÓN */
-        .btn-pay {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 30px;
-            transition: background 0.3s;
-        }
-        .btn-pay:hover { background: var(--accent); }
         
         /* Contenedor interno dinámico para listar la ropa */
         .checkout-items-lista {
             max-height: 180px;
             overflow-y: auto;
             margin-bottom: 25px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--gris-borde);
             padding-bottom: 15px;
         }
     </style>
@@ -121,7 +75,11 @@
 <body>
 
     <header>
-        <a href="index.html" class="logo">MODA EXPRESS</a>
+        <h1><a href="index.html" style="color: inherit; text-decoration: none;">MODA EXPRESS</a></h1>
+        <nav>
+            <a href="index.html">Colecciones</a>
+            <a href="checkout.html">Checkout</a>
+        </nav>
     </header>
 
     <form id="form-checkout" class="checkout-container">
@@ -130,25 +88,25 @@
             <div class="section-block">
                 <h2>01. Dirección de Envío</h2>
                 <div class="grid-inputs">
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Nombre</label>
-                        <input type="text" placeholder="Yeferson" required>
+                        <input type="text" id="txt-nombre-envio" placeholder="Yeferson" required>
                     </div>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Apellido</label>
-                        <input type="text" placeholder="Murcia" required>
+                        <input type="text" id="txt-apellido-envio" placeholder="Murcia" required>
                     </div>
-                    <div class="input-group full-width">
+                    <div class="form-group full-width">
                         <label>Dirección</label>
-                        <input type="text" placeholder="Calle 10 #2-34, Barrio Centro" required>
+                        <input type="text" id="txt-direccion-envio" placeholder="Calle 10 #2-34, Barrio Centro" required>
                     </div>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Ciudad</label>
-                        <input type="text" placeholder="Pitalito" required>
+                        <input type="text" id="txt-ciudad-envio" placeholder="Pitalito" required>
                     </div>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Teléfono</label>
-                        <input type="tel" placeholder="312 345 6789" required>
+                        <input type="tel" id="txt-telefono-envio" placeholder="312 345 6789" required>
                     </div>
                 </div>
             </div>
@@ -156,19 +114,17 @@
             <div class="section-block">
                 <h2>02. Detalles de Pago</h2>
                 <div class="grid-inputs">
-                    <div class="full-width">
-                        <div class="input-group full-width">
-                            <label>Número de Tarjeta</label>
-                            <input type="text" placeholder="4556 •••• •••• 8901" required>
-                        </div>
+                    <div class="form-group full-width">
+                        <label>Número de Tarjeta</label>
+                        <input type="text" id="txt-tarjeta" placeholder="4556 •••• •••• 8901" required>
                     </div>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>Fecha de Expiración</label>
-                        <input type="text" placeholder="MM/AA" required>
+                        <input type="text" id="txt-expiracion" placeholder="MM/AA" required>
                     </div>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label>CVC / CVV</label>
-                        <input type="password" placeholder="•••" required>
+                        <input type="password" id="txt-cvc" placeholder="•••" required>
                     </div>
                 </div>
             </div>
@@ -181,16 +137,16 @@
                 </div>
             
             <div class="summary-item">
-                <span style="color: var(--text-muted);">Subtotal</span>
+                <span>Subtotal</span>
                 <span id="lbl-subtotal">$0 COP</span>
             </div>
             <div class="summary-item">
-                <span style="color: var(--text-muted);">IVA (19%)</span>
+                <span>IVA (19%)</span>
                 <span id="lbl-iva">$0 COP</span>
             </div>
             <div class="summary-item">
-                <span style="color: var(--text-muted);">Envío Express</span>
-                <span style="color: var(--accent);">Gratuito</span>
+                <span>Envío Express</span>
+                <span style="color: var(--verde-menta-hover); font-weight: 600;">Gratuito</span>
             </div>
             
             <div class="summary-item summary-total">
@@ -198,7 +154,7 @@
                 <span id="lbl-total">$0 COP</span>
             </div>
 
-            <button type="submit" class="btn-pay">Autorizar y Pagar Pedido</button>
+            <button type="submit" id="btn-pagar" class="btn-primary">Autorizar y Pagar Pedido</button>
         </div>
 
     </form>
@@ -208,13 +164,25 @@
         let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
         /**
+         * Escapa caracteres especiales para renderizado seguro en HTML.
+         */
+        function escaparHTML(valor) {
+            return String(valor ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        /**
          * Renderiza los productos seleccionados y calcula la liquidación financiera en el Checkout.
          */
         function inicializarResumenCheckout() {
             const listaContenedor = document.getElementById('checkout-productos-lista');
             
             if (carrito.length === 0) {
-                listaContenedor.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">No hay prendas en tu orden actual.</p>';
+                listaContenedor.innerHTML = '<p style="font-size: 0.85rem;">No hay prendas en tu orden actual.</p>';
                 document.getElementById('lbl-subtotal').innerText = '$0 COP';
                 document.getElementById('lbl-iva').innerText = '$0 COP';
                 document.getElementById('lbl-total').innerText = '$0 COP';
@@ -224,14 +192,14 @@
             // Inyección dinámica de las líneas de producto correspondientes
             listaContenedor.innerHTML = carrito.map(item => `
                 <div class="summary-item" style="margin-bottom: 12px;">
-                    <span><strong>${item.nombre}</strong> (x${item.cantidad})</span>
-                    <span>$${(item.precio * item.cantidad).toLocaleString('es-CO')} COP</span>
+                    <span><strong>${escaparHTML(item.nombre)}</strong> (x${Number(item.cantidad) || 0})</span>
+                    <span>$${((Number(item.precio) || 0) * (Number(item.cantidad) || 0)).toLocaleString('es-CO')} COP</span>
                 </div>
             `).join('');
 
-            // Cálculos financieros precisos
-            let subtotal = carrito.reduce((acc, current) => acc + (current.precio * current.cantidad), 0);
-            let iva = subtotal * 0.19;
+            // Cálculos financieros precisos y redondeados para COP
+            let subtotal = carrito.reduce((acc, current) => acc + ((Number(current.precio) || 0) * (Number(current.cantidad) || 0)), 0);
+            let iva = Math.round(subtotal * 0.19);
             let total = subtotal + iva;
 
             // Inyectar etiquetas calculadas con formato monetario localizado
@@ -249,6 +217,17 @@
                 return;
             }
 
+            const btnPagar = document.getElementById('btn-pagar');
+            btnPagar.disabled = true;
+
+            const datosEnvio = {
+                nombre: document.getElementById('txt-nombre-envio').value.trim(),
+                apellido: document.getElementById('txt-apellido-envio').value.trim(),
+                direccion: document.getElementById('txt-direccion-envio').value.trim(),
+                ciudad: document.getElementById('txt-ciudad-envio').value.trim(),
+                telefono: document.getElementById('txt-telefono-envio').value.trim()
+            };
+
             try {
                 // Despachar petición HTTP POST estructurada hacia la API del Backend
                 const respuesta = await fetch('/api/comprar', {
@@ -256,21 +235,23 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ carrito: carrito })
+                    body: JSON.stringify({ carrito: carrito, envio: datosEnvio })
                 });
 
                 const resultado = await respuesta.json();
 
-                if (resultado.estatus === "OK") {
+                if (respuesta.ok && resultado.estatus === "OK") {
                     alert(`🎉 ¡Éxito en la transacción!\n\n${resultado.mensaje}`);
                     localStorage.removeItem('carrito'); // Vaciar el buffer del carrito local
                     window.location.href = 'index.html'; // Redirigir de vuelta a la vitrina virtual
                 } else {
-                    alert(`❌ Error operativo: ${resultado.mensaje}`);
+                    alert(`❌ Error operativo: ${resultado.mensaje || 'No se pudo completar la orden.'}`);
+                    btnPagar.disabled = false;
                 }
             } catch (error) {
                 console.error("Error en la petición de compra:", error);
                 alert("Error de red: No se pudo establecer conexión de alta disponibilidad con el servidor de pasarela.");
+                btnPagar.disabled = false;
             }
         });
 

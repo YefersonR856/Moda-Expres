@@ -14,29 +14,16 @@
     <title>MODA EXPRESS | Autenticación Atemporal</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Vinculación a la hoja de estilos compartida styles.css -->
+    <link rel="stylesheet" href="styles.css">
     
     <style>
-        /* ASIGNACIÓN DE VARIABLES DE IDENTIDAD CORPORATIVA (:root de Lujo) */
-        :root {
-            --primary: #000000;
-            --accent: #bba15c;
-            --bg: #ffffff;
-            --border: #e5e5e5;
-            --font-serif: 'Playfair Display', Georgia, serif;
-            --font-sans: 'Montserrat', sans-serif;
-        }
-
-        /* REGLAS DE NORMALIZACIÓN BÁSICA (CSS Reset) */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: var(--font-sans);
-            background: var(--bg);
-            height: 100vh;
+        /* MAQUETACIÓN: PANTALLA DIVIDIDA (Split Screen Design Architecture) */
+        .login-layout {
+            min-height: calc(100vh - 76px);
             display: flex;
         }
 
-        /* MAQUETACIÓN: PANTALLA DIVIDIDA (Split Screen Design Architecture) */
         .login-split-img {
             flex: 1.2;
             background: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200') no-repeat center center/cover;
@@ -49,26 +36,12 @@
             flex-direction: column;
             justify-content: center;
             padding: 60px 10%;
-            background: white;
-        }
-
-        /* COMPONENTE: IDENTIFICADOR DE MARCA (Brand Hub Link) */
-        .brand-header {
-            margin-bottom: 40px;
-        }
-
-        .brand-header a {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            font-weight: 700;
-            text-decoration: none;
-            color: var(--primary);
-            letter-spacing: 1px;
+            background: var(--blanco-puro);
         }
 
         /* ENCABEZADOS INFORMATIVOS DEL FORMULARIO */
         .form-title {
-            font-family: var(--font-serif);
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 1.5rem;
             font-weight: 400;
             margin-bottom: 8px;
@@ -80,81 +53,30 @@
             margin-bottom: 35px;
         }
 
-        /* COMPONENTE: ENVOLTURA ERGONÓMICA DE CAMPOS DE ENTRADA (Minimalist Inputs) */
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .input-wrapper input {
-            width: 100%;
-            padding: 14px 0;
-            border: none;
-            border-bottom: 1px solid var(--border);
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .input-wrapper input:focus {
-            border-bottom-color: var(--primary);
-        }
-
-        .input-wrapper label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #767676;
-            display: block;
-            margin-bottom: 5px;
-        }
-
         /* CONTROLES ADICIONALES: RECORDATORIO Y RECUPERACIÓN DE CUENTAS */
         .options-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.8rem;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
 
         .options-row a {
             color: #767676;
             text-decoration: none;
-            border-bottom: 1px solid transparent;
-        }
-        .options-row a:hover { border-bottom-color: #767676; }
-
-        /* CONTROL DE ENVÍO DE FORMULARIO DE ACCESO (Secure Submit) */
-        .btn-submit-premium {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            padding: 16px;
-            border: none;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-submit-premium:hover {
-            background: var(--accent);
         }
 
         /* PIE DE CAMBIO DE CONTEXTO (Sign-Up Switcher) */
         .footer-switch {
-            margin-top: 40px;
+            margin-top: 30px;
             text-align: center;
             font-size: 0.85rem;
             color: #767676;
         }
 
         .footer-switch a {
-            color: var(--primary);
+            color: var(--negro-mate);
             font-weight: 600;
             text-decoration: none;
         }
@@ -162,36 +84,42 @@
 </head>
 <body>
 
-    <div class="login-split-img"></div>
+    <header>
+        <h1><a href="index.html" style="color: inherit; text-decoration: none;">MODA EXPRESS</a></h1>
+        <nav>
+            <a href="index.html">Colecciones</a>
+            <a href="login.html">Acceder</a>
+        </nav>
+    </header>
 
-    <div class="login-split-form">
-        <div class="brand-header">
-            <a href="index.html">MODA EXPRESS</a>
+    <div class="login-layout">
+        <div class="login-split-img"></div>
+
+        <div class="login-split-form">
+            <h2 class="form-title">Bienvenido de regreso</h2>
+            <p class="form-subtitle">Ingresa tus credenciales para acceder a tu Atelier personal.</p>
+
+            <form id="form-login" class="form-admin" style="border: none; padding: 0; margin-bottom: 0; box-shadow: none;">
+                <div class="form-group">
+                    <label>Dirección de Correo Electrónico</label>
+                    <input type="email" id="txt-email" placeholder="nombre@ejemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="txt-password" placeholder="••••••••••••" required>
+                </div>
+
+                <div class="options-row">
+                    <label><input type="checkbox"> Recordar sesión</label>
+                    <a href="#" onclick="alert('Funcionalidad de recuperación en mantenimiento.');">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+            </form>
+
+            <p class="footer-switch">¿Nuevo en la Maison? <a href="#" onclick="alert('El registro de nuevos clientes está temporalmente cerrado por lanzamiento de temporada.');">Crear una cuenta</a></p>
         </div>
-
-        <h2 class="form-title">Bienvenido de regreso</h2>
-        <p class="form-subtitle">Ingresa tus credenciales para acceder a tu Atelier personal.</p>
-
-        <form id="form-login">
-            <div class="input-wrapper">
-                <label>Dirección de Correo Electrónico</label>
-                <input type="email" id="txt-email" placeholder="nombre@ejemplo.com" required>
-            </div>
-
-            <div class="input-wrapper">
-                <label>Contraseña</label>
-                <input type="password" id="txt-password" placeholder="••••••••••••" required>
-            </div>
-
-            <div class="options-row">
-                <label><input type="checkbox"> Recordar sesión</label>
-                <a href="#" onclick="alert('Funcionalidad de recuperación en mantenimiento.');">¿Olvidaste tu contraseña?</a>
-            </div>
-
-            <button type="submit" class="btn-submit-premium">Iniciar Sesión</button>
-        </form>
-
-        <p class="footer-switch">¿Nuevo en la Maison? <a href="#" onclick="alert('El registro de nuevos clientes está temporalmente cerrado por lanzamiento de temporada.');">Crear una cuenta</a></p>
     </div>
 
     <script>
@@ -202,12 +130,19 @@
             const email = document.getElementById('txt-email').value.trim();
             const password = document.getElementById('txt-password').value;
 
+            if (password.length < 4) {
+                alert('La contraseña debe tener al menos 4 caracteres.');
+                return;
+            }
+
             // Validación de control de acceso basada en roles
             if (email === 'admin@modaexpress.com' && password === 'admin123') {
+                sessionStorage.setItem('sesionModaExpress', JSON.stringify({ email, rol: 'admin' }));
                 alert('✨ Autenticación exitosa como Administrador.\nAccediendo al Studio Dashboard...');
                 window.location.href = 'admin.html'; // Redirige al panel de administración
             } else {
                 // Simulación para cualquier otro usuario o cliente regular
+                sessionStorage.setItem('sesionModaExpress', JSON.stringify({ email, rol: 'cliente' }));
                 alert(`👋 ¡Bienvenido de vuelta!\nSesión iniciada correctamente con el correo: ${email}`);
                 window.location.href = 'index.html'; // Redirige a la tienda principal
             }

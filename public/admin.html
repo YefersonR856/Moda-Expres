@@ -14,49 +14,10 @@
     <title>MODA EXPRESS | Studio Dashboard</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Vinculación a la hoja de estilos compartida styles.css -->
+    <link rel="stylesheet" href="styles.css">
     
     <style>
-        /* CONFIGURACIÓN DE VARIABLES GLOBALES DE DISEÑO (Arquitectura de Diseño de Moda Express) */
-        :root {
-            --sidebar-width: 260px;
-            --primary: #000000;
-            --accent: #bba15c;
-            --bg: #f4f5f7;
-            --surface: #ffffff;
-            --border: #e2e8f0;
-            --font-sans: 'Montserrat', sans-serif;
-        }
-
-        /* RESETEO BÁSICO DE MÁRGENES Y BOX MODELING */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background: var(--bg); display: flex; }
-
-        /* COMPONENTE VISUAL: BARRA LATERAL (Navigation Sidebar) */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: #0b0b0b;
-            color: white;
-            height: 100vh;
-            position: fixed;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar h1 { font-family: 'Playfair Display', serif; font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 50px; text-align: center; color: var(--accent); }
-        .sidebar a { color: #a0aec0; text-decoration: none; padding: 15px 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; display: block; transition: all 0.3s; margin-bottom: 5px; }
-        .sidebar a:hover, .sidebar a.active { background: #1a1a1a; color: white; border-left: 3px solid var(--accent); }
-
-        /* CONTENEDOR DE CONTENIDO PRINCIPAL (Main Fluid Container) */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            padding: 50px 4%;
-        }
-
-        /* ENCABEZADO DE SECCIÓN */
-        .header-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        .header-title h2 { font-size: 1.5rem; font-weight: 600; }
-
         /* TARJETAS DE MÉTRICAS OPERATIVAS (Módulo Analítico KPIs) */
         .kpi-grid {
             display: grid;
@@ -65,10 +26,10 @@
             margin-bottom: 40px;
         }
         .kpi-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--blanco-puro);
+            border: 1px solid var(--gris-borde);
             padding: 25px;
-            border-radius: 4px;
+            border-radius: 8px;
         }
         .kpi-card p { font-size: 0.75rem; text-transform: uppercase; color: #718096; letter-spacing: 1px; margin-bottom: 10px; }
         .kpi-card h3 { font-size: 1.4rem; font-weight: 700; }
@@ -81,49 +42,28 @@
         }
 
         /* CONTENEDORES DE PANELES INDEPENDIENTES */
-        .card-panel { background: var(--surface); border: 1px solid var(--border); padding: 35px; border-radius: 4px; }
-        .card-panel h4 { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; border-bottom: 1px solid var(--bg); padding-bottom: 15px; }
+        .card-panel { background: var(--blanco-puro); border: 1px solid var(--gris-borde); padding: 30px; border-radius: 8px; }
+        .card-panel h4 { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; border-bottom: 1px solid var(--gris-fondo); padding-bottom: 15px; }
 
         /* MAQUETACIÓN DE COMPONENTES DE FORMULARIO (Form Fields Grid) */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .full-row { grid-column: span 2; }
-        .form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
-        .form-group label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #4a5568; margin-bottom: 6px; }
-        .form-group input, .form-group select { padding: 10px; border: 1px solid var(--border); outline: none; font-family: var(--font-sans); font-size: 0.85rem; }
-        .form-group input:focus { border-color: var(--primary); }
-
-        /* BOTÓN DE ACCIÓN ADMINISTRATIVO */
-        .btn-admin {
-            grid-column: span 2; background: var(--primary); color: white; border: none; padding: 14px;
-            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; font-weight: 600; cursor: pointer; transition: background 0.3s; margin-top: 10px;
-        }
-        .btn-admin:hover { background: var(--accent); }
-
-        /* ESTRUCTURA DE TABLA DE DATOS DE ALTA CALIDAD */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #f7fafc; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; color: #718096; padding: 15px; text-align: left; border-bottom: 2px solid var(--border); }
-        td { padding: 15px; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
-        tr:hover { background: #f8fafc; }
-
-        /* BADGES INFORMATIVOS DE STOCK */
-        .badge { padding: 4px 8px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; border-radius: 2px; }
-        .badge-success { background: #e6fffa; color: #234e52; }
-        .badge-warning { background: #fffaf0; color: #dd6b20; }
-        .badge-danger { background: #fff5f5; color: #e53e3e; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
+    <header>
         <h1>M X STUDIO</h1>
-        <a href="#" class="active">📦 Productos</a>
-        <a href="#">🧾 Órdenes</a>
-        <a href="#">📊 Analíticas</a>
-        <a href="index.html" style="margin-top: auto; border-left: none; color: var(--accent);">Ver Tienda ➔</a>
-    </div>
+        <nav>
+            <a href="#">Productos</a>
+            <a href="#">Órdenes</a>
+            <a href="#">Analíticas</a>
+            <a href="index.html">Ver Tienda</a>
+        </nav>
+    </header>
 
-    <div class="main-content">
-        <div class="header-title">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
             <h2>Control de Atelier / Inventario</h2>
             <span style="font-size: 0.85rem; color: #718096;">Estatus: <strong>Conectado a la API</strong></span>
         </div>
@@ -138,7 +78,7 @@
         <div class="dashboard-layout">
             <div class="card-panel">
                 <h4>Añadir Nueva Prenda</h4>
-                <form class="form-grid" id="form-add-producto">
+                <form class="form-grid form-admin" id="form-add-producto" style="border: none; padding: 0; margin-bottom: 0; box-shadow: none;">
                     <div class="form-group full-row">
                         <label>Nombre de la Prenda</label>
                         <input type="text" id="txt-nombre" placeholder="Ej: Gabardina Impermeable" required>
@@ -154,11 +94,11 @@
                     </div>
                     <div class="form-group">
                         <label>Precio (COP)</label>
-                        <input type="number" id="num-precio" placeholder="850000" required>
+                        <input type="number" id="num-precio" placeholder="850000" min="0" required>
                     </div>
                     <div class="form-group">
                         <label>Stock Bodega</label>
-                        <input type="number" id="num-stock" placeholder="15" required>
+                        <input type="number" id="num-stock" placeholder="15" min="0" required>
                     </div>
                     <div class="form-group">
                         <label>Talla</label>
@@ -168,13 +108,13 @@
                         <label>Color</label>
                         <input type="text" id="txt-color" placeholder="Negro Absoluto" required>
                     </div>
-                    <button type="submit" class="btn-admin">Publicar en Vitrina Virtual</button>
+                    <button type="submit" class="btn-primary full-row">Publicar en Vitrina Virtual</button>
                 </form>
             </div>
 
             <div class="card-panel">
                 <h4>Artículos Disponibles en Tiempo Real</h4>
-                <table>
+                <table class="tabla-inventario">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -193,38 +133,54 @@
 
     <script>
         /**
+         * Escapa caracteres especiales para evitar inyección HTML al renderizar datos dinámicos.
+         */
+        function escaparHTML(valor) {
+            return String(valor ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        /**
          * Recupera el estado real del inventario desde el servidor para mapearlo en la UI.
          */
         async function cargarInventarioDashboard() {
             try {
                 const response = await fetch('/api/productos');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
                 const productos = await response.json();
                 const tbody = document.getElementById('tabla-inventario-body');
 
                 // Mapear dinámicamente cada prenda en la fila correspondiente
                 tbody.innerHTML = productos.map(prod => {
-                    // Establecer estilos de badge semánticos según criticidad del Stock
-                    let badgeClass = 'badge-success';
-                    if (prod.stock <= 0) {
-                        badgeClass = 'badge-danger';
-                    } else if (prod.stock <= 3) {
-                        badgeClass = 'badge-warning';
+                    // Establecer estilos de badge semánticos según criticidad del Stock usando styles.css
+                    let badgeClass = 'badge-stock badge-ok';
+                    if (prod.stock <= 3) {
+                        badgeClass = 'badge-stock badge-low';
                     }
+
+                    const precioSeguro = Number(prod.precio) || 0;
+                    const stockSeguro = Number(prod.stock) || 0;
 
                     return `
                         <tr>
                             <td>#${String(prod.id).padStart(2, '0')}</td>
-                            <td><strong>${prod.nombre}</strong><br><small style="color: #718096;">${prod.categoria}</small></td>
-                            <td>${prod.talla} / ${prod.color}</td>
-                            <td>$${prod.precio.toLocaleString('es-CO')}</td>
-                            <td><span class="badge ${badgeClass}">${prod.stock} un</span></td>
+                            <td><strong>${escaparHTML(prod.nombre)}</strong><br><small style="color: #718096;">${escaparHTML(prod.categoria)}</small></td>
+                            <td>${escaparHTML(prod.talla)} / ${escaparHTML(prod.color)}</td>
+                            <td>$${precioSeguro.toLocaleString('es-CO')}</td>
+                            <td><span class="${badgeClass}">${stockSeguro} un</span></td>
                         </tr>
                     `;
                 }).join('');
 
                 // Calcular y refrescar los indicadores operacionales (KPIs) en tiempo real
-                let stockTotal = productos.reduce((acc, p) => acc + p.stock, 0);
-                let valorizacionTotal = productos.reduce((acc, p) => acc + (p.precio * p.stock), 0);
+                let stockTotal = productos.reduce((acc, p) => acc + (Number(p.stock) || 0), 0);
+                let valorizacionTotal = productos.reduce((acc, p) => acc + ((Number(p.precio) || 0) * (Number(p.stock) || 0)), 0);
 
                 document.getElementById('kpi-stock').innerText = `${stockTotal} un`;
                 document.getElementById('kpi-ventas').innerText = `$${valorizacionTotal.toLocaleString('es-CO')}`;
@@ -241,14 +197,22 @@
         document.getElementById('form-add-producto').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const precio = parseFloat(document.getElementById('num-precio').value);
+            const stock = parseInt(document.getElementById('num-stock').value, 10);
+
+            if (Number.isNaN(precio) || precio < 0 || Number.isNaN(stock) || stock < 0) {
+                alert("Verifica que el precio y el stock sean números válidos iguales o mayores a 0.");
+                return;
+            }
+
             // Construir el objeto de transporte de datos
             const nuevoProducto = {
-                nombre: document.getElementById('txt-nombre').value,
+                nombre: document.getElementById('txt-nombre').value.trim(),
                 categoria: document.getElementById('sel-categoria').value,
-                precio: parseInt(document.getElementById('num-precio').value),
-                stock: parseInt(document.getElementById('num-stock').value),
-                talla: document.getElementById('txt-talla').value,
-                color: document.getElementById('txt-color').value
+                precio: precio,
+                stock: stock,
+                talla: document.getElementById('txt-talla').value.trim(),
+                color: document.getElementById('txt-color').value.trim()
             };
 
             try {

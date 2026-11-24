@@ -8,85 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Vinculación a la hoja de estilos compartida styles.css -->
+    <link rel="stylesheet" href="styles.css">
     
     <style>
-        /* ASIGNACIÓN DE VARIABLES DE IDENTIDAD CORPORATIVA (:root de Lujo) */
-        :root {
-            --primary: #000000;
-            --accent: #bba15c; /* Dorado sutil de lujo */
-            --bg: #fbfbfb;
-            --surface: #ffffff;
-            --text-main: #111111;
-            --text-muted: #767676;
-            --border: #e5e5e5;
-            --font-serif: 'Playfair Display', Georgia, serif;
-            --font-sans: 'Montserrat', sans-serif;
-        }
-
-        /* REGLAS DE NORMALIZACIÓN BÁSICA (CSS Reset) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* COMPONENTE: BARRA SUPERIOR PROMOCIONAL */
-        .promo-bar {
-            background: var(--primary);
-            color: white;
-            text-align: center;
-            padding: 8px 0;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            font-weight: 300;
-            text-transform: uppercase;
-        }
-
-        /* COMPONENTE: ENCABEZADO DE NAVEGACIÓN DE ALTA DISPONIBILIDAD (Sticky AAA) */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 4%;
-        }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-decoration: none;
-            color: var(--primary);
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 0.85rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-left: 30px;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--accent);
-        }
-
         /* MAQUETACIÓN: SECCIÓN HERO DE BIENVENIDA (Banner Inmersivo) */
         .hero {
             position: relative;
@@ -102,7 +27,7 @@
         }
 
         .hero h2 {
-            font-family: var(--font-serif);
+            font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
             font-size: 3.5rem;
             font-weight: 400;
             margin-bottom: 15px;
@@ -117,98 +42,26 @@
             font-weight: 300;
         }
 
-        .btn-luxury {
-            background: white;
-            color: black;
-            padding: 14px 40px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-luxury:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* CONTENEDOR FLUIDO DE LA VITRINA VIRTUAL */
-        .main-container {
-            max-width: 1400px;
-            margin: 60px auto;
-            padding: 0 4%;
-        }
-
         .section-title {
-            font-family: var(--font-serif);
+            font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
             font-size: 2rem;
             text-align: center;
             margin-bottom: 40px;
             font-weight: 400;
         }
 
-        /* ARQUITECTURA DE REJILLA: MÓDULO DE CATÁLOGO (Responsive Auto-Fill Grid) */
-        .catalogo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 40px 30px;
-            margin-bottom: 80px;
-        }
-
-        /* TARJETAS CONTENEDORAS DE PRODUCTO (Product Display Card) */
-        .card-producto {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 20px;
-            position: relative;
-        }
-
         .image-placeholder {
             width: 100%;
-            height: 380px;
+            height: 260px;
             background: #eee no-repeat center center/cover;
             margin-bottom: 15px;
-        }
-
-        .card-producto h3 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
+            border-radius: 6px;
         }
 
         .card-producto .meta {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            font-size: 0.85rem;
+            color: #767676;
             margin-bottom: 8px;
-        }
-
-        .card-producto .precio {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--primary);
-        }
-
-        .btn-add-cart {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .btn-add-cart:hover {
-            background: var(--accent);
         }
 
         /* =====================================================================
@@ -217,13 +70,14 @@
         .carrito-pie-container {
             max-width: 600px;
             margin: 60px auto 40px auto;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--blanco-puro);
+            border: 1px solid var(--gris-borde);
             padding: 40px;
+            border-radius: 8px;
         }
 
         .carrito-pie-container h2 {
-            font-family: var(--font-serif);
+            font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
             font-size: 1.6rem;
             font-weight: 400;
             margin-bottom: 25px;
@@ -231,7 +85,7 @@
         }
 
         .carrito-vacio-msg {
-            color: var(--text-muted);
+            color: #767676;
             font-size: 0.9rem;
             margin-bottom: 25px;
             padding: 10px 0;
@@ -250,7 +104,7 @@
             font-size: 0.85rem;
             margin-bottom: 8px;
             padding-bottom: 8px;
-            border-bottom: 1px dashed var(--border);
+            border-bottom: 1px dashed var(--gris-borde);
         }
 
         /* FILAS ESTRUCTURALES DE VALORES FINANCIEROS (COP) */
@@ -259,63 +113,62 @@
             justify-content: space-between;
             font-size: 0.9rem;
             margin-bottom: 15px;
-            color: var(--text-muted);
+            color: #767676;
         }
 
         .carrito-total-row.total-final {
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--gris-borde);
             padding-top: 20px;
             margin-top: 20px;
             font-weight: 700;
             font-size: 1.1rem;
-            color: var(--primary);
+            color: var(--negro-mate);
         }
 
         /* CONTROL DE ENLACE DIRECTO HACIA MÓDULO DE PASARELA SECURE */
         .btn-checkout-pie {
             width: 100%;
-            background: var(--primary);
-            color: white;
+            background: var(--verde-menta);
+            color: var(--blanco-puro);
             border: none;
             padding: 16px;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 15px;
             transition: background 0.3s;
             text-align: center;
             display: block;
             text-decoration: none;
+            border-radius: 5px;
         }
 
         .btn-checkout-pie:hover {
-            background: var(--accent);
+            background: var(--verde-menta-hover);
         }
     </style>
 </head>
 <body>
 
-    <div class="promo-bar">Envíos Express Premium Globales / Diseños de Alta Costura</div>
-
     <header>
-        <a href="index.html" class="logo">MODA EXPRESS</a>
+        <h1>MODA EXPRESS</h1>
         <nav>
-            <a href="index.html" class="active">Colecciones</a>
+            <a href="index.html">Colecciones</a>
             <a href="login.html">Acceder</a>
             <a href="checkout.html">Checkout</a>
-            <a href="admin.html" style="color: var(--accent);">Studio Admin ⚙️</a>
+            <a href="admin.html">Studio Admin</a>
         </nav>
     </header>
 
     <div class="hero">
         <p>Nueva Colección Otoño / Invierno</p>
         <h2>THIS IS NEW LUXURY</h2>
-        <button class="btn-luxury">Explorar Atelier</button>
+        <a href="#catalogo-productos" class="btn-primary" style="display: inline-block; width: auto; text-decoration: none;">Explorar Atelier</a>
     </div>
 
-    <div class="main-container">
+    <div class="container">
         <h2 class="section-title">Prendas de Temporada</h2>
         
         <div class="catalogo-grid" id="catalogo-productos">
@@ -350,6 +203,35 @@
     <script>
         // Array de estado global persistido localmente para el carrito
         let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        let catalogoActual = [];
+
+        /**
+         * Escapa caracteres especiales para evitar inyección HTML al renderizar datos dinámicos.
+         */
+        function escaparHTML(valor) {
+            return String(valor ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        /**
+         * Valida que la URL de imagen use protocolo http o https para evitar esquemas peligrosos.
+         */
+        function validarURLImagen(url) {
+            const fallback = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600';
+            try {
+                const parsed = new URL(url);
+                if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+                    return parsed.href;
+                }
+                return fallback;
+            } catch (_) {
+                return fallback;
+            }
+        }
 
         /**
          * Consume la API local de productos para renderizar dinámicamente la grilla del catálogo.
@@ -357,22 +239,27 @@
         async function fetchCatalogo() {
             try {
                 const response = await fetch('/api/productos');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
                 const productos = await response.json();
+                catalogoActual = productos;
                 const grid = document.getElementById('catalogo-productos');
                 
                 // Mapeo e inyección semántica de tarjetas de producto basadas en el inventario del servidor
                 grid.innerHTML = productos.map(prod => {
                     // Mapear dinámicamente la URL de recurso gráfico estático provisto por la API
-                    let imgUrl = prod.imagen || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600';
+                    let imgUrl = validarURLImagen(prod.imagen);
+                    const sinStock = Number(prod.stock) <= 0;
 
                     return `
                         <div class="card-producto">
                             <div class="image-placeholder" style="background-image: url('${imgUrl}');"></div>
-                            <h3>${prod.nombre}</h3>
-                            <div class="meta">Categoría: ${prod.categoria} | Talla: ${prod.talla} | Color: ${prod.color}</div>
-                            <div class="meta" style="font-weight: 600; color: #c0392b;">Disponibles: ${prod.stock} uds</div>
-                            <div class="precio">$${prod.precio.toLocaleString('es-CO')} COP</div>
-                            <button class="btn-add-cart" onclick="agregarProducto(${prod.id}, '${prod.nombre}', ${prod.precio}, ${prod.stock})">Añadir al Carrito</button>
+                            <h3>${escaparHTML(prod.nombre)}</h3>
+                            <div class="meta">Categoría: ${escaparHTML(prod.categoria)} | Talla: ${escaparHTML(prod.talla)} | Color: ${escaparHTML(prod.color)}</div>
+                            <div class="meta" style="font-weight: 600; color: #c0392b;">Disponibles: ${Number(prod.stock) || 0} uds</div>
+                            <div class="precio">$${(Number(prod.precio) || 0).toLocaleString('es-CO')} COP</div>
+                            <button class="btn-primary" ${sinStock ? 'disabled' : ''} onclick="agregarProducto(${Number(prod.id)})">${sinStock ? 'Agotado' : 'Añadir al Carrito'}</button>
                         </div>
                     `;
                 }).join('');
@@ -386,8 +273,12 @@
         /**
          * Inserta una prenda en el carro de compras validando stock local de la vitrina.
          */
-        function agregarProducto(id, nombre, precio, stockMax) {
-            const itemExistente = carrito.find(item => item.id === id);
+        function agregarProducto(id) {
+            const producto = catalogoActual.find(p => Number(p.id) === Number(id));
+            if (!producto) return;
+
+            const { nombre, precio, stock: stockMax } = producto;
+            const itemExistente = carrito.find(item => item.id === producto.id);
             const cantidadActual = itemExistente ? itemExistente.cantidad : 0;
 
             if (cantidadActual >= stockMax) {
@@ -398,7 +289,7 @@
             if (itemExistente) {
                 itemExistente.cantidad += 1;
             } else {
-                carrito.push({ id, nombre, precio, cantidad: 1 });
+                carrito.push({ id: producto.id, nombre, precio, cantidad: 1 });
             }
 
             // Persistir cambios y actualizar vista
@@ -427,14 +318,14 @@
             // Render de renglones individuales
             listaDiv.innerHTML = carrito.map(item => `
                 <div class="carrito-item-linea">
-                    <span>• ${item.nombre} <strong>(x${item.cantidad})</strong></span>
-                    <span>$${(item.precio * item.cantidad).toLocaleString('es-CO')} COP</span>
+                    <span>• ${escaparHTML(item.nombre)} <strong>(x${Number(item.cantidad) || 0})</strong></span>
+                    <span>$${((Number(item.precio) || 0) * (Number(item.cantidad) || 0)).toLocaleString('es-CO')} COP</span>
                 </div>
             `).join('');
 
-            // Operaciones aritméticas de liquidación
-            let subtotal = carrito.reduce((acc, current) => acc + (current.precio * current.cantidad), 0);
-            let iva = subtotal * 0.19;
+            // Operaciones aritméticas de liquidación y redondeo para COP
+            let subtotal = carrito.reduce((acc, current) => acc + ((Number(current.precio) || 0) * (Number(current.cantidad) || 0)), 0);
+            let iva = Math.round(subtotal * 0.19);
             let total = subtotal + iva;
 
             // Inyección de valores calculados con formato localizado
